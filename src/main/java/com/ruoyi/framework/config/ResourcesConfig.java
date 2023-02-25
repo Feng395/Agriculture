@@ -12,7 +12,7 @@ import com.ruoyi.framework.interceptor.RepeatSubmitInterceptor;
 
 /**
  * 通用配置
- * 
+ * 对与Springboot中SpringMvc的扩展配置类
  * @author ruoyi
  */
 @Configuration
@@ -29,6 +29,7 @@ public class ResourcesConfig implements WebMvcConfigurer
 
     /**
      * 默认首页的设置，当输入域名是可以自动跳转到默认指定的网页
+     * 视图控制器 控制页面的跳转
      */
     @Override
     public void addViewControllers(ViewControllerRegistry registry)
@@ -48,6 +49,8 @@ public class ResourcesConfig implements WebMvcConfigurer
 
     /**
      * 自定义拦截规则
+     * 配置上我们自己编写的拦截器
+     * .excludePathPatterns()在源代码基础上添加此部分可以排除一些路径的拦截
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry)

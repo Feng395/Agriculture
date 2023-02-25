@@ -26,7 +26,7 @@
         </div>
         <a th:href="@{/index}">
             <li class="logo hidden-xs">
-                <span class="logo-lg">RuoYi</span>
+                <span class="logo-lg"><img src="logo.png">农户收入采集</span>
             </li>
          </a>
         <div class="sidebar-collapse">
@@ -39,16 +39,15 @@
 		                    	<img th:src="(${#strings.isEmpty(user.avatar)}) ? @{/img/profile.jpg} : @{${user.avatar}}" th:onerror="this.src='img/profile.jpg'" class="img-circle" alt="User Image">
 					        </div>
 				        </a>
-				        <div class="pull-left info">
-				          <p>[[${user.loginName}]]</p>
-				          <a href="#"><i class="fa fa-circle text-success"></i> 在线</a>
-				          <a th:href="@{logout}" style="padding-left:5px;"><i class="fa fa-sign-out text-danger"></i> 注销</a>
-				        </div>
 				    </div>
             	</li>
                 <li>
                     <a class="menuItem" th:href="@{/system/main}"><i class="fa fa-home"></i> <span class="nav-label">首页</span> </a>
                 </li>
+				<li>
+					<!--这种方式编写的在菜单管理中无法查到  上面的首页相同  但是在右侧会显示页框-->
+					<a class="menuItem" th:href="@{/test}"><i class="fa fa-home"></i> <span class="nav-label">测试系统页面</span> </a>
+				</li>
                 <li th:each="menu : ${menus}">
                 	<a th:class="@{${!#strings.isEmpty(menu.url) && menu.url != '#'} ? ${menu.target}}" th:href="@{${#strings.isEmpty(menu.url)} ? |#| : ${menu.url}}" th:data-refresh="${menu.isRefresh == '0'}">
                 		<i class="fa fa-bar-chart-o" th:class="${menu.icon}"></i>
@@ -193,7 +192,6 @@
                     </a>
                 </div>
                 <ul class="nav navbar-top-links navbar-right welcome-message">
-                    <li><a data-toggle="tooltip" data-trigger="hover" data-placement="bottom" title="开发文档" href="http://doc.ruoyi.vip/ruoyi" target="_blank"><i class="fa fa-question-circle"></i> 文档</a></li>
                     <li><a data-toggle="tooltip" data-trigger="hover" data-placement="bottom" title="锁定屏幕" href="#" id="lockScreen"><i class="fa fa-lock"></i> 锁屏</a></li>
 	                <li><a data-toggle="tooltip" data-trigger="hover" data-placement="bottom" title="全屏显示" href="#" id="fullScreen"><i class="fa fa-arrows-alt"></i> 全屏</a></li>
                     <li class="dropdown user-menu">
@@ -209,14 +207,6 @@
 							<li>
 								<a onclick="resetPwd()">
 								<i class="fa fa-key"></i> 修改密码</a>
-							</li>
-							<li>
-								<a onclick="switchSkin()">
-								<i class="fa fa-dashboard"></i> 切换主题</a>
-							</li>
-							<li>
-								<a onclick="toggleMenu()">
-								<i class="fa fa-toggle-off"></i> 横向菜单</a>
 							</li>
 							<li class="divider"></li>
 							<li>
@@ -251,7 +241,7 @@
         </div>
 
         <div th:if="${footer}" class="footer">
-            <div class="pull-right">© [[${copyrightYear}]] RuoYi Copyright </div>
+            <div class="pull-right">© 2023 Chen </div>
         </div>
     </div>
     <!--右侧部分结束-->

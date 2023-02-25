@@ -88,7 +88,7 @@ public class IndexController extends BaseController
         return webIndex;
     }
 
-    // 锁定屏幕
+    /*// 锁定屏幕
     @GetMapping("/lockscreen")
     public String lockscreen(ModelMap mmap)
     {
@@ -121,7 +121,7 @@ public class IndexController extends BaseController
     {
         return "skin";
     }
-
+*/
     // 切换菜单
     @GetMapping("/system/menuStyle/{style}")
     public void menuStyle(@PathVariable String style, HttpServletResponse response)

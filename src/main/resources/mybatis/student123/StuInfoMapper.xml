@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.student.mapper.StuInfoMapper">
+    
+    <resultMap type="StuInfo" id="StuInfoResult">
+        <result property="id"    column="id"    />
+        <result property="stuId"    column="stu_id"    />
+        <result property="stuName"    column="stu_name"    />
+        <result property="stuAge"    column="stu_age"    />
+        <result property="stuSex"    column="stu_sex"    />
+    </resultMap>
+
+    <sql id="selectStuInfoVo">
+        select id, stu_id, stu_name, stu_age, stu_sex from stu_info
+    </sql>
+
+    <select id="selectStuInfoList" parameterType="StuInfo" resultMap="StuInfoResult">
+        <include refid="selectStuInfoVo"/>
+        <where>  
+            <if test="stuId != null "> and stu_id = #{stuId}</if>
+            <if test="stuName != null  and stuName != ''"> and stu_name like concat('%', #{stuName}, '%')</if>
+            <if test="stuAge != null "> and stu_age = #{stuAge}</if>
+            <if test="stuSex != null "> and stu_sex = #{stuSex}</if>
+        </where>
+    </select>
+    
+    <select id="selectStuInfoById" parameterType="Long" resultMap="StuInfoResult">
+        <include refid="selectStuInfoVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertStuInfo" parameterType="StuInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into stu_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="stuId != null">stu_id,</if>
+            <if test="stuName != null">stu_name,</if>
+            <if test="stuAge != null">stu_age,</if>
+            <if test="stuSex != null">stu_sex,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="stuId != null">#{stuId},</if>
+            <if test="stuName != null">#{stuName},</if>
+            <if test="stuAge != null">#{stuAge},</if>
+            <if test="stuSex != null">#{stuSex},</if>
+         </trim>
+    </insert>
+
+    <update id="updateStuInfo" parameterType="StuInfo">
+        update stu_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="stuId != null">stu_id = #{stuId},</if>
+            <if test="stuName != null">stu_name = #{stuName},</if>
+            <if test="stuAge != null">stu_age = #{stuAge},</if>
+            <if test="stuSex != null">stu_sex = #{stuSex},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteStuInfoById" parameterType="Long">
+        delete from stu_info where id = #{id}
+    </delete>
+
+    <delete id="deleteStuInfoByIds" parameterType="String">
+        delete from stu_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
