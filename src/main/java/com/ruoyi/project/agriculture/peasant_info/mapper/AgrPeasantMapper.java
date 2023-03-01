@@ -1,7 +1,7 @@
-package com.ruoyi.project.peasant_info.mapper;
+package com.ruoyi.project.agriculture.peasant_info.mapper;
 
 import java.util.List;
-import com.ruoyi.project.peasant_info.domain.AgrPeasant;
+import com.ruoyi.project.agriculture.peasant_info.domain.AgrPeasant;
 
 /**
  * 农户个人信息Mapper接口

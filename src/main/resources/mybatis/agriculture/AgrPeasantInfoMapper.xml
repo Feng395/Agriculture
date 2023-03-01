@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.agriculture.peasant_info.mapper.AgrPeasantMapper">
+    
+    <resultMap type="AgrPeasant" id="AgrPeasantResult">
+        <result property="id"    column="id"    />
+        <result property="peaId"    column="pea_id"    />
+        <result property="peaName"    column="pea_name"    />
+        <result property="peaCard"    column="pea_card"    />
+        <result property="peaVillage"    column="pea_village"    />
+        <result property="peaYear"    column="pea_year"    />
+        <result property="peaRelation"    column="pea_relation"    />
+        <result property="peaReason"    column="pea_reason"    />
+        <result property="peaHealth"    column="pea_health"    />
+        <result property="peaAge"    column="pea_age"    />
+        <result property="peaStatus"    column="pea_status"    />
+        <result property="peaNation"    column="pea_nation"    />
+        <result property="peaTel"    column="pea_tel"    />
+        <result property="peaTime"    column="pea_time"    />
+        <result property="peaAbility"    column="pea_ability"    />
+        <result property="peaEducation"    column="pea_education"    />
+        <result property="peaType"    column="pea_type"    />
+    </resultMap>
+
+    <sql id="selectAgrPeasantVo">
+        select id, pea_id, pea_name, pea_card, pea_village, pea_year, pea_relation, pea_reason, pea_health, pea_age, pea_status, pea_nation, pea_tel, pea_time, pea_ability, pea_education, pea_type from agr_peasant
+    </sql>
+
+    <select id="selectAgrPeasantList" parameterType="AgrPeasant" resultMap="AgrPeasantResult">
+        <include refid="selectAgrPeasantVo"/>
+        <where>  
+            <if test="peaId != null "> and pea_id = #{peaId}</if>
+            <if test="peaName != null  and peaName != ''"> and pea_name like concat('%', #{peaName}, '%')</if>
+            <if test="peaCard != null  and peaCard != ''"> and pea_card = #{peaCard}</if>
+            <if test="peaRelation != null  and peaRelation != ''"> and pea_relation = #{peaRelation}</if>
+        </where>
+    </select>
+    
+    <select id="selectAgrPeasantById" parameterType="Long" resultMap="AgrPeasantResult">
+        <include refid="selectAgrPeasantVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAgrPeasant" parameterType="AgrPeasant" useGeneratedKeys="true" keyProperty="id">
+        insert into agr_peasant
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="peaId != null">pea_id,</if>
+            <if test="peaName != null">pea_name,</if>
+            <if test="peaCard != null and peaCard != ''">pea_card,</if>
+            <if test="peaVillage != null">pea_village,</if>
+            <if test="peaYear != null">pea_year,</if>
+            <if test="peaRelation != null">pea_relation,</if>
+            <if test="peaReason != null">pea_reason,</if>
+            <if test="peaHealth != null">pea_health,</if>
+            <if test="peaAge != null">pea_age,</if>
+            <if test="peaStatus != null">pea_status,</if>
+            <if test="peaNation != null">pea_nation,</if>
+            <if test="peaTel != null">pea_tel,</if>
+            <if test="peaTime != null">pea_time,</if>
+            <if test="peaAbility != null">pea_ability,</if>
+            <if test="peaEducation != null">pea_education,</if>
+            <if test="peaType != null">pea_type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="peaId != null">#{peaId},</if>
+            <if test="peaName != null">#{peaName},</if>
+            <if test="peaCard != null and peaCard != ''">#{peaCard},</if>
+            <if test="peaVillage != null">#{peaVillage},</if>
+            <if test="peaYear != null">#{peaYear},</if>
+            <if test="peaRelation != null">#{peaRelation},</if>
+            <if test="peaReason != null">#{peaReason},</if>
+            <if test="peaHealth != null">#{peaHealth},</if>
+            <if test="peaAge != null">#{peaAge},</if>
+            <if test="peaStatus != null">#{peaStatus},</if>
+            <if test="peaNation != null">#{peaNation},</if>
+            <if test="peaTel != null">#{peaTel},</if>
+            <if test="peaTime != null">#{peaTime},</if>
+            <if test="peaAbility != null">#{peaAbility},</if>
+            <if test="peaEducation != null">#{peaEducation},</if>
+            <if test="peaType != null">#{peaType},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAgrPeasant" parameterType="AgrPeasant">
+        update agr_peasant
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="peaId != null">pea_id = #{peaId},</if>
+            <if test="peaName != null">pea_name = #{peaName},</if>
+            <if test="peaCard != null and peaCard != ''">pea_card = #{peaCard},</if>
+            <if test="peaVillage != null">pea_village = #{peaVillage},</if>
+            <if test="peaYear != null">pea_year = #{peaYear},</if>
+            <if test="peaRelation != null">pea_relation = #{peaRelation},</if>
+            <if test="peaReason != null">pea_reason = #{peaReason},</if>
+            <if test="peaHealth != null">pea_health = #{peaHealth},</if>
+            <if test="peaAge != null">pea_age = #{peaAge},</if>
+            <if test="peaStatus != null">pea_status = #{peaStatus},</if>
+            <if test="peaNation != null">pea_nation = #{peaNation},</if>
+            <if test="peaTel != null">pea_tel = #{peaTel},</if>
+            <if test="peaTime != null">pea_time = #{peaTime},</if>
+            <if test="peaAbility != null">pea_ability = #{peaAbility},</if>
+            <if test="peaEducation != null">pea_education = #{peaEducation},</if>
+            <if test="peaType != null">pea_type = #{peaType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAgrPeasantById" parameterType="Long">
+        delete from agr_peasant where id = #{id}
+    </delete>
+
+    <delete id="deleteAgrPeasantByIds" parameterType="String">
+        delete from agr_peasant where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

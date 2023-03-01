@@ -1,11 +1,11 @@
-package com.ruoyi.project.peasant_info.service.impl;
+package com.ruoyi.project.agriculture.peasant_info.service.impl;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.project.peasant_info.mapper.AgrPeasantMapper;
-import com.ruoyi.project.peasant_info.domain.AgrPeasant;
-import com.ruoyi.project.peasant_info.service.IAgrPeasantService;
+import com.ruoyi.project.agriculture.peasant_info.mapper.AgrPeasantMapper;
+import com.ruoyi.project.agriculture.peasant_info.domain.AgrPeasant;
+import com.ruoyi.project.agriculture.peasant_info.service.IAgrPeasantService;
 import com.ruoyi.common.utils.text.Convert;
 
 /**
