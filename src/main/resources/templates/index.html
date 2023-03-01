@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="renderer" content="webkit">
-    <title>若依系统首页</title>
+    <title>农业财务系统</title>
     <!-- 避免IE使用兼容模式 -->
  	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link th:href="@{favicon.ico}" rel="shortcut icon"/>
@@ -31,16 +31,6 @@
          </a>
         <div class="sidebar-collapse">
             <ul class="nav" id="side-menu">
-            	<li>
-            		<div class="user-panel">
-            			<a class="menuItem noactive" title="个人中心" th:href="@{/system/user/profile}">
-            				<div class="hide" th:text="个人中心"></div>
-					        <div class="pull-left image">
-		                    	<img th:src="(${#strings.isEmpty(user.avatar)}) ? @{/img/profile.jpg} : @{${user.avatar}}" th:onerror="this.src='img/profile.jpg'" class="img-circle" alt="User Image">
-					        </div>
-				        </a>
-				    </div>
-            	</li>
                 <li>
                     <a class="menuItem" th:href="@{/system/main}"><i class="fa fa-home"></i> <span class="nav-label">首页</span> </a>
                 </li>
