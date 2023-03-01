@@ -23,12 +23,8 @@
                                 <input type="text" name="peaCard"/>
                             </li>
                             <li>
-                                <label>自然村：</label>
-                                <input type="text" name="peaVillage"/>
-                            </li>
-                            <li>
-                                <label>年度：</label>
-                                <input type="text" name="peaYear"/>
+                                <label>与户主关系：</label>
+                                <input type="text" name="peaRelation"/>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -97,8 +93,12 @@
                     title: '自然村'
                 },
                 {
-                    field: 'peaYear',
-                    title: '年度'
+                    field: 'peaRelation',
+                    title: '与户主关系'
+                },
+                {
+                    field: 'peaReason',
+                    title: '致贫原因'
                 },
                 {
                     title: '操作',
