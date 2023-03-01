@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--360浏览器优先以webkit内核解析-->
+    <!--解决无法显示图片-->
+    <meta name="referrer" content="no-referrer" />
     <title>首页介绍</title>
 	<!--下面修改图标-->
     <link rel="shortcut icon" href="favicon.ico">
@@ -14,7 +16,6 @@
 
 <body class="white-bg">
     <div class="white-bg">
-        <img src="../static/img/login-background.jpg" alt="背景图">
         <h1>欢迎使用农户收入采集管理系统</h1>
     </div>
     <script th:src="@{/js/jquery.min.js}"></script>
@@ -25,3 +26,4 @@
     </script>
 </body>
 </html>
+
