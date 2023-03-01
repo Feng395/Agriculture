@@ -1,4 +1,4 @@
-package com.ruoyi.project.peasant_info.domain;
+package com.ruoyi.project.agriculture.peasant_info.domain;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
