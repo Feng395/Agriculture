@@ -31,6 +31,7 @@ public class SwaggerConfig
 
     /**
      * 创建API
+     * Docket Bean实例
      */
     @Bean
     public Docket createRestApi()
@@ -40,15 +41,19 @@ public class SwaggerConfig
                 .enable(enabled)
                 // 用来创建该API的基本信息，展示在文档的页面中（自定义展示的信息）
                 .apiInfo(apiInfo())
+                //设置分组 (此处可以实例多个Docket对象 每个对象设置相应的分组名称)
+                .groupName("CHEN")
                 // 设置哪些接口暴露给Swagger展示
                 .select()
-                // 扫描所有有注解的api，用这种方式更灵活
+                // 扫描所有的类 上有@ApiOperation注解的api，用这种方式更灵活
                 .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
                 // 扫描指定包中的swagger注解
                 //.apis(RequestHandlerSelectors.basePackage("com.ruoyi.project.tool.swagger"))
-                // 扫描所有 .apis(RequestHandlerSelectors.any())
+                // 或扫描所有
+                //.apis(RequestHandlerSelectors.any())
+                //过滤路径
                 .paths(PathSelectors.any())
-                .build();
+                .build();//工厂模式
     }
 
     /**
@@ -61,7 +66,7 @@ public class SwaggerConfig
                 // 设置标题
                 .title("标题：若依管理系统_接口文档")
                 // 描述
-                .description("描述：用于管理集团旗下公司的人员信息,具体包括XXX,XXX模块...")
+                .description("描述：用于管理农户收入管理后台系统信息,具体包括XXX,XXX模块...")
                 // 作者信息
                 .contact(new Contact(ruoYiConfig.getName(), null, null))
                 // 版本

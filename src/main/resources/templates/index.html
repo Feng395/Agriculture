@@ -46,7 +46,7 @@
                 </li>
 				<li>
 					<!--这种方式编写的在菜单管理中无法查到  上面的首页相同  但是在右侧会显示页框-->
-					<a class="menuItem" th:href="@{/test}"><i class="fa fa-home"></i> <span class="nav-label">测试系统页面</span> </a>
+					<a class="menuItem" th:href="@{/nonghu/edit.html}"><i class="fa fa-home"></i> <span class="nav-label">测试系统页面</span> </a>
 				</li>
                 <li th:each="menu : ${menus}">
                 	<a th:class="@{${!#strings.isEmpty(menu.url) && menu.url != '#'} ? ${menu.target}}" th:href="@{${#strings.isEmpty(menu.url)} ? |#| : ${menu.url}}" th:data-refresh="${menu.isRefresh == '0'}">

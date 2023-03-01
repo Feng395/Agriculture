@@ -1,6 +1,7 @@
 # 数据源配置
 spring:
     datasource:
+        # 指定自定义的数据源 不使用springboot官方配置的
         type: com.alibaba.druid.pool.DruidDataSource
         driverClassName: com.mysql.cj.jdbc.Driver
         druid:
@@ -41,14 +42,17 @@ spring:
             testOnReturn: false
             webStatFilter: 
                 enabled: true
+            # Druid内置后台监控配置
             statViewServlet:
                 enabled: true
                 # 设置白名单，不填则允许所有访问
                 allow:
                 url-pattern: /druid/*
-                # 控制台管理用户名和密码
+                # Druid后台管理用户名和密码
                 login-username: ruoyi
                 login-password: 123456
+            # 配置监控统计拦截的filters
+                #stat:监控统计、   Log4j(使用需导入依赖): 日志记录、    wall: 防御sql注入
             filter:
                 stat:
                     enabled: true

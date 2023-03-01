@@ -33,7 +33,7 @@ import com.ruoyi.framework.datasource.DynamicDataSource;
 public class DruidConfig
 {
     @Bean
-    @ConfigurationProperties("spring.datasource.druid.master")
+    @ConfigurationProperties("spring.datasource.druid.master")//绑定到yml中
     public DataSource masterDataSource(DruidProperties druidProperties)
     {
         DruidDataSource dataSource = DruidDataSourceBuilder.create().build();
@@ -51,6 +51,7 @@ public class DruidConfig
 
     @Bean(name = "dynamicDataSource")
     @Primary
+    //动态数据源  可以通过修改yml配置文件动态修改数据源
     public DynamicDataSource dataSource(DataSource masterDataSource)
     {
         Map<Object, Object> targetDataSources = new HashMap<>();
