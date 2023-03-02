@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.test.teaClass.mapper.TeaClassMapper">
+    
+    <resultMap type="TeaClass" id="TeaClassResult">
+        <result property="id"    column="id"    />
+        <result property="claId"    column="cla_id"    />
+        <result property="claTeaId"    column="cla_tea_id"    />
+        <result property="claNumber"    column="cla_number"    />
+        <result property="claName"    column="cla_name"    />
+        <result property="parentName" column="parent_name" />
+    </resultMap>
+
+    <sql id="selectTeaClassVo">
+        select id, cla_id, cla_tea_id, cla_number, cla_name from test_tea_class
+    </sql>
+
+    <select id="selectTeaClassList" parameterType="TeaClass" resultMap="TeaClassResult">
+        <include refid="selectTeaClassVo"/>
+        <where>  
+            <if test="claId != null "> and cla_id = #{claId}</if>
+            <if test="claTeaId != null "> and cla_tea_id = #{claTeaId}</if>
+            <if test="claNumber != null "> and cla_number = #{claNumber}</if>
+            <if test="claName != null  and claName != ''"> and cla_name like concat('%', #{claName}, '%')</if>
+        </where>
+        order by cla_tea_id
+    </select>
+    
+    <select id="selectTeaClassById" parameterType="Long" resultMap="TeaClassResult">
+        select t.id, t.cla_id, t.cla_tea_id, t.cla_number, t.cla_name, p.cla_name as parent_name
+        from test_tea_class t
+        left join test_tea_class p on p.id = t.cla_tea_id
+        where t.id = #{id}
+    </select>
+        
+    <insert id="insertTeaClass" parameterType="TeaClass" useGeneratedKeys="true" keyProperty="id">
+        insert into test_tea_class
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="claId != null">cla_id,</if>
+            <if test="claTeaId != null">cla_tea_id,</if>
+            <if test="claNumber != null">cla_number,</if>
+            <if test="claName != null">cla_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="claId != null">#{claId},</if>
+            <if test="claTeaId != null">#{claTeaId},</if>
+            <if test="claNumber != null">#{claNumber},</if>
+            <if test="claName != null">#{claName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTeaClass" parameterType="TeaClass">
+        update test_tea_class
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="claId != null">cla_id = #{claId},</if>
+            <if test="claTeaId != null">cla_tea_id = #{claTeaId},</if>
+            <if test="claNumber != null">cla_number = #{claNumber},</if>
+            <if test="claName != null">cla_name = #{claName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTeaClassById" parameterType="Long">
+        delete from test_tea_class where id = #{id}
+    </delete>
+
+    <delete id="deleteTeaClassByIds" parameterType="String">
+        delete from test_tea_class where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

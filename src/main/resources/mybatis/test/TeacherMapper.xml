@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.test.teacher.mapper.TeacherMapper">
+    
+    <resultMap type="Teacher" id="TeacherResult">
+        <result property="id"    column="id"    />
+        <result property="teaId"    column="tea_id"    />
+        <result property="teaName"    column="tea_name"    />
+        <result property="teaDep"    column="tea_dep"    />
+    </resultMap>
+
+    <resultMap id="TeacherTeaDepartmentResult" type="Teacher" extends="TeacherResult">
+        <collection property="teaDepartmentList" notNullColumn="sub_id" javaType="java.util.List" resultMap="TeaDepartmentResult" />
+    </resultMap>
+
+    <resultMap type="TeaDepartment" id="TeaDepartmentResult">
+        <result property="id"    column="sub_id"    />
+        <result property="depId"    column="sub_dep_id"    />
+        <result property="depName"    column="sub_dep_name"    />
+    </resultMap>
+
+    <sql id="selectTeacherVo">
+        select id, tea_id, tea_name, tea_dep from test_teacher
+    </sql>
+
+    <select id="selectTeacherList" parameterType="Teacher" resultMap="TeacherResult">
+        <include refid="selectTeacherVo"/>
+        <where>  
+            <if test="teaId != null "> and tea_id = #{teaId}</if>
+            <if test="teaName != null  and teaName != ''"> and tea_name like concat('%', #{teaName}, '%')</if>
+            <if test="teaDep != null "> and tea_dep = #{teaDep}</if>
+        </where>
+    </select>
+    
+    <select id="selectTeacherById" parameterType="Long" resultMap="TeacherTeaDepartmentResult">
+        select a.id, a.tea_id, a.tea_name, a.tea_dep,
+ b.id as sub_id, b.dep_id as sub_dep_id, b.dep_name as sub_dep_name
+        from test_teacher a
+        left join test_tea_department b on b.dep_id = a.id
+        where a.id = #{id}
+    </select>
+        
+    <insert id="insertTeacher" parameterType="Teacher" useGeneratedKeys="true" keyProperty="id">
+        insert into test_teacher
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="teaId != null">tea_id,</if>
+            <if test="teaName != null">tea_name,</if>
+            <if test="teaDep != null">tea_dep,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="teaId != null">#{teaId},</if>
+            <if test="teaName != null">#{teaName},</if>
+            <if test="teaDep != null">#{teaDep},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTeacher" parameterType="Teacher">
+        update test_teacher
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="teaId != null">tea_id = #{teaId},</if>
+            <if test="teaName != null">tea_name = #{teaName},</if>
+            <if test="teaDep != null">tea_dep = #{teaDep},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTeacherById" parameterType="Long">
+        delete from test_teacher where id = #{id}
+    </delete>
+
+    <delete id="deleteTeacherByIds" parameterType="String">
+        delete from test_teacher where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+    <delete id="deleteTeaDepartmentByDepIds" parameterType="String">
+        delete from test_tea_department where dep_id in 
+        <foreach item="depId" collection="array" open="(" separator="," close=")">
+            #{depId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteTeaDepartmentByDepId" parameterType="Long">
+        delete from test_tea_department where dep_id = #{depId}
+    </delete>
+
+    <insert id="batchTeaDepartment">
+        insert into test_tea_department( id, dep_id, dep_name) values
+		<foreach item="item" index="index" collection="list" separator=",">
+            ( #{item.id}, #{item.depId}, #{item.depName})
+        </foreach>
+    </insert>
+
+</mapper>

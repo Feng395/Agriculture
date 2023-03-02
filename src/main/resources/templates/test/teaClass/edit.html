@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改班级模块')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-teaClass-edit" th:object="${teaClass}">
+            <input name="id" th:field="*{id}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">班级编号：</label>
+                <div class="col-sm-8">
+                    <input name="claId" th:field="*{claId}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">班级教学教师编号：</label>
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        <input id="treeId" name="claTeaId" type="hidden" th:field="*{claTeaId}" />
+                        <input class="form-control" type="text" onclick="selectTeaClassTree()" id="treeName" readonly="true" th:field="*{parentName}">
+                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">班级学生数量：</label>
+                <div class="col-sm-8">
+                    <input name="claNumber" th:field="*{claNumber}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">班级名称：</label>
+                <div class="col-sm-8">
+                    <input name="claName" th:field="*{claName}" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var prefix = ctx + "test/teaClass";
+        $("#form-teaClass-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-teaClass-edit').serialize());
+            }
+        }
+
+        /*班级模块-编辑-选择父班级模块树*/
+        function selectTeaClassTree() {
+            var options = {
+                title: '班级模块选择',
+                width: "380",
+                url: prefix + "/selectTeaClassTree/" + $("#treeId").val(),
+                callBack: doSubmit
+            };
+            $.modal.openOptions(options);
+        }
+
+        function doSubmit(index, layero){
+            var body = $.modal.getChildFrame(index);
+            $("#treeId").val(body.find('#treeId').val());
+            $("#treeName").val(body.find('#treeName').val());
+            $.modal.close(index);
+        }
+    </script>
+</body>
+</html>
