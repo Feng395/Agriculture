@@ -36,7 +36,7 @@
                 </li>
 				<li>
 					<!--这种方式编写的在菜单管理中无法查到  上面的首页相同  但是在右侧会显示页框-->
-					<a class="menuItem" th:href="@{/nonghu/edit.html}"><i class="fa fa-home"></i> <span class="nav-label">测试系统页面</span> </a>
+					<a class="menuItem" th:href="@{/html/ie.html}"><i class="fa fa-home"></i> <span class="nav-label">测试系统页面</span> </a>
 				</li>
                 <li th:each="menu : ${menus}">
                 	<a th:class="@{${!#strings.isEmpty(menu.url) && menu.url != '#'} ? ${menu.target}}" th:href="@{${#strings.isEmpty(menu.url)} ? |#| : ${menu.url}}" th:data-refresh="${menu.isRefresh == '0'}">
@@ -277,25 +277,6 @@ function resetPwd() {
     $.modal.open("重置密码", url, '770', '380');
 }
 
-/* 切换主题 */
-function switchSkin() {
-    layer.open({
-		type : 2,
-		shadeClose : true,
-		title : "切换主题",
-		area : ["530px", "386px"],
-		content : [ctx + "system/switchSkin", 'no']
-	})
-}
-
-/* 切换菜单 */
-function toggleMenu() {
-	$.modal.confirm("确认要切换成横向菜单吗？", function() {
-		$.get(ctx + 'system/menuStyle/topnav', function(result) {
-            window.location.reload();
-	    });
-	})
-}
 
 /** 刷新时访问路径页签 */
 function applyPath(url) {

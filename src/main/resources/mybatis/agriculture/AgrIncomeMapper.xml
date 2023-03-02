@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.agriculture.income.mapper.AgrIncomeMapper">
+    
+    <resultMap type="AgrIncome" id="AgrIncomeResult">
+        <result property="id"    column="id"    />
+        <result property="peaId"    column="pea_id"    />
+        <result property="peaName"    column="pea_name"    />
+        <result property="peaCard"    column="pea_card"    />
+        <result property="peaVillage"    column="pea_village"    />
+        <result property="year"    column="year"    />
+        <result property="proAndOpe"    column="pro_and_ope"    />
+        <result property="property"    column="property"    />
+        <result property="salary"    column="salary"    />
+        <result property="transfer"    column="transfer"    />
+        <result property="status"    column="status"    />
+        <result property="perIncomeThisYear"    column="per_income_this_year"    />
+        <result property="perIncomeLastYear"    column="per_income_last_year"    />
+    </resultMap>
+
+    <sql id="selectAgrIncomeVo">
+        select id, pea_id, pea_name, pea_card, pea_village, year, pro_and_ope, property, salary, transfer, status, per_income_this_year, per_income_last_year from agr_income
+    </sql>
+
+    <select id="selectAgrIncomeList" parameterType="AgrIncome" resultMap="AgrIncomeResult">
+        <include refid="selectAgrIncomeVo"/>
+        <where>  
+            <if test="peaId != null  and peaId != ''"> and pea_id = #{peaId}</if>
+            <if test="peaName != null  and peaName != ''"> and pea_name like concat('%', #{peaName}, '%')</if>
+            <if test="peaCard != null  and peaCard != ''"> and pea_card = #{peaCard}</if>
+            <if test="year != null  and year != ''"> and year = #{year}</if>
+        </where>
+    </select>
+    
+    <select id="selectAgrIncomeById" parameterType="Long" resultMap="AgrIncomeResult">
+        <include refid="selectAgrIncomeVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAgrIncome" parameterType="AgrIncome" useGeneratedKeys="true" keyProperty="id">
+        insert into agr_income
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="peaId != null and peaId != ''">pea_id,</if>
+            <if test="peaName != null">pea_name,</if>
+            <if test="peaCard != null">pea_card,</if>
+            <if test="peaVillage != null">pea_village,</if>
+            <if test="year != null and year != ''">year,</if>
+            <if test="proAndOpe != null">pro_and_ope,</if>
+            <if test="property != null">property,</if>
+            <if test="salary != null">salary,</if>
+            <if test="transfer != null">transfer,</if>
+            <if test="status != null">status,</if>
+            <if test="perIncomeThisYear != null">per_income_this_year,</if>
+            <if test="perIncomeLastYear != null">per_income_last_year,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="peaId != null and peaId != ''">#{peaId},</if>
+            <if test="peaName != null">#{peaName},</if>
+            <if test="peaCard != null">#{peaCard},</if>
+            <if test="peaVillage != null">#{peaVillage},</if>
+            <if test="year != null and year != ''">#{year},</if>
+            <if test="proAndOpe != null">#{proAndOpe},</if>
+            <if test="property != null">#{property},</if>
+            <if test="salary != null">#{salary},</if>
+            <if test="transfer != null">#{transfer},</if>
+            <if test="status != null">#{status},</if>
+            <if test="perIncomeThisYear != null">#{perIncomeThisYear},</if>
+            <if test="perIncomeLastYear != null">#{perIncomeLastYear},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAgrIncome" parameterType="AgrIncome">
+        update agr_income
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="peaId != null and peaId != ''">pea_id = #{peaId},</if>
+            <if test="peaName != null">pea_name = #{peaName},</if>
+            <if test="peaCard != null">pea_card = #{peaCard},</if>
+            <if test="peaVillage != null">pea_village = #{peaVillage},</if>
+            <if test="year != null and year != ''">year = #{year},</if>
+            <if test="proAndOpe != null">pro_and_ope = #{proAndOpe},</if>
+            <if test="property != null">property = #{property},</if>
+            <if test="salary != null">salary = #{salary},</if>
+            <if test="transfer != null">transfer = #{transfer},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="perIncomeThisYear != null">per_income_this_year = #{perIncomeThisYear},</if>
+            <if test="perIncomeLastYear != null">per_income_last_year = #{perIncomeLastYear},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAgrIncomeById" parameterType="Long">
+        delete from agr_income where id = #{id}
+    </delete>
+
+    <delete id="deleteAgrIncomeByIds" parameterType="String">
+        delete from agr_income where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

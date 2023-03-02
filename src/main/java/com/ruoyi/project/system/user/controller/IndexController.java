@@ -88,7 +88,7 @@ public class IndexController extends BaseController
         return webIndex;
     }
 
-    /*// 锁定屏幕
+    // 锁定屏幕
     @GetMapping("/lockscreen")
     public String lockscreen(ModelMap mmap)
     {
@@ -113,20 +113,6 @@ public class IndexController extends BaseController
             return AjaxResult.success();
         }
         return AjaxResult.error("密码不正确，请重新输入。");
-    }
-
-    // 切换主题
-    @GetMapping("/system/switchSkin")
-    public String switchSkin()
-    {
-        return "skin";
-    }
-*/
-    // 切换菜单
-    @GetMapping("/system/menuStyle/{style}")
-    public void menuStyle(@PathVariable String style, HttpServletResponse response)
-    {
-        CookieUtils.setCookie(response, "nav-style", style);
     }
 
     // 系统介绍
