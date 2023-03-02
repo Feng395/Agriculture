@@ -20,6 +20,7 @@ public class CommonMap
 
     /**
      * 返回状态映射
+     * 将数据库数据的格式 与 Java数据格式 之间一一对应
      */
     public static void initJavaTypeMap()
     {

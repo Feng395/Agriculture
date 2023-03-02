@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.test.studentMark.mapper.StudentMarkMapper">
+    
+    <resultMap type="StudentMark" id="StudentMarkResult">
+        <result property="id"    column="id"    />
+        <result property="stuId"    column="stu_id"    />
+        <result property="markChinese"    column="mark_chinese"    />
+        <result property="markMath"    column="mark_math"    />
+        <result property="markIt"    column="mark_it"    />
+    </resultMap>
+
+    <sql id="selectStudentMarkVo">
+        select id, stu_id, mark_chinese, mark_math, mark_it from test_stu_mark
+    </sql>
+
+    <select id="selectStudentMarkList" parameterType="StudentMark" resultMap="StudentMarkResult">
+        <include refid="selectStudentMarkVo"/>
+        <where>  
+            <if test="stuId != null "> and stu_id = #{stuId}</if>
+            <if test="markChinese != null "> and mark_chinese = #{markChinese}</if>
+            <if test="markMath != null "> and mark_math = #{markMath}</if>
+            <if test="markIt != null "> and mark_it = #{markIt}</if>
+        </where>
+    </select>
+    
+    <select id="selectStudentMarkById" parameterType="Long" resultMap="StudentMarkResult">
+        <include refid="selectStudentMarkVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertStudentMark" parameterType="StudentMark" useGeneratedKeys="true" keyProperty="id">
+        insert into test_stu_mark
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="stuId != null">stu_id,</if>
+            <if test="markChinese != null">mark_chinese,</if>
+            <if test="markMath != null">mark_math,</if>
+            <if test="markIt != null">mark_it,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="stuId != null">#{stuId},</if>
+            <if test="markChinese != null">#{markChinese},</if>
+            <if test="markMath != null">#{markMath},</if>
+            <if test="markIt != null">#{markIt},</if>
+         </trim>
+    </insert>
+
+    <update id="updateStudentMark" parameterType="StudentMark">
+        update test_stu_mark
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="stuId != null">stu_id = #{stuId},</if>
+            <if test="markChinese != null">mark_chinese = #{markChinese},</if>
+            <if test="markMath != null">mark_math = #{markMath},</if>
+            <if test="markIt != null">mark_it = #{markIt},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteStudentMarkById" parameterType="Long">
+        delete from test_stu_mark where id = #{id}
+    </delete>
+
+    <delete id="deleteStudentMarkByIds" parameterType="String">
+        delete from test_stu_mark where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

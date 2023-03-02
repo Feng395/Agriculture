@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.test.student_info.mapper.StudentMapper">
+    
+    <resultMap type="Student" id="StudentResult">
+        <result property="id"    column="id"    />
+        <result property="stuId"    column="stu_id"    />
+        <result property="stuName"    column="stu_name"    />
+        <result property="stuSex"    column="stu_sex"    />
+        <result property="stuClass"    column="stu_class"    />
+        <result property="stuMark"    column="stu_mark"    />
+        <result property="creatTime"    column="creat_time"    />
+    </resultMap>
+
+    <resultMap id="StudentStuMarkResult" type="Student" extends="StudentResult">
+        <collection property="stuMarkList" notNullColumn="sub_id" javaType="java.util.List" resultMap="StuMarkResult" />
+    </resultMap>
+
+    <resultMap type="StuMark" id="StuMarkResult">
+        <result property="id"    column="sub_id"    />
+        <result property="stuId"    column="sub_stu_id"    />
+        <result property="markChinese"    column="sub_mark_chinese"    />
+        <result property="markMath"    column="sub_mark_math"    />
+        <result property="markIt"    column="sub_mark_it"    />
+    </resultMap>
+
+    <sql id="selectStudentVo">
+        select id, stu_id, stu_name, stu_sex, stu_class, stu_mark, creat_time from test_student
+    </sql>
+
+    <select id="selectStudentList" parameterType="Student" resultMap="StudentResult">
+        <include refid="selectStudentVo"/>
+        <where>  
+            <if test="stuId != null "> and stu_id = #{stuId}</if>
+            <if test="stuName != null  and stuName != ''"> and stu_name like concat('%', #{stuName}, '%')</if>
+            <if test="stuSex != null "> and stu_sex = #{stuSex}</if>
+            <if test="stuClass != null "> and stu_class = #{stuClass}</if>
+            <if test="stuMark != null  and stuMark != ''"> and stu_mark = #{stuMark}</if>
+        </where>
+    </select>
+    
+    <select id="selectStudentById" parameterType="Long" resultMap="StudentStuMarkResult">
+        select a.id, a.stu_id, a.stu_name, a.stu_sex, a.stu_class, a.stu_mark, a.creat_time,
+ b.id as sub_id, b.stu_id as sub_stu_id, b.mark_chinese as sub_mark_chinese, b.mark_math as sub_mark_math, b.mark_it as sub_mark_it
+        from test_student a
+        left join test_stu_mark b on b.stu_id = a.id
+        where a.id = #{id}
+    </select>
+        
+    <insert id="insertStudent" parameterType="Student" useGeneratedKeys="true" keyProperty="id">
+        insert into test_student
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="stuId != null">stu_id,</if>
+            <if test="stuName != null">stu_name,</if>
+            <if test="stuSex != null">stu_sex,</if>
+            <if test="stuClass != null">stu_class,</if>
+            <if test="stuMark != null">stu_mark,</if>
+            <if test="creatTime != null">creat_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="stuId != null">#{stuId},</if>
+            <if test="stuName != null">#{stuName},</if>
+            <if test="stuSex != null">#{stuSex},</if>
+            <if test="stuClass != null">#{stuClass},</if>
+            <if test="stuMark != null">#{stuMark},</if>
+            <if test="creatTime != null">#{creatTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateStudent" parameterType="Student">
+        update test_student
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="stuId != null">stu_id = #{stuId},</if>
+            <if test="stuName != null">stu_name = #{stuName},</if>
+            <if test="stuSex != null">stu_sex = #{stuSex},</if>
+            <if test="stuClass != null">stu_class = #{stuClass},</if>
+            <if test="stuMark != null">stu_mark = #{stuMark},</if>
+            <if test="creatTime != null">creat_time = #{creatTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteStudentById" parameterType="Long">
+        delete from test_student where id = #{id}
+    </delete>
+
+    <delete id="deleteStudentByIds" parameterType="String">
+        delete from test_student where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+    <delete id="deleteStuMarkByStuIds" parameterType="String">
+        delete from test_stu_mark where stu_id in 
+        <foreach item="stuId" collection="array" open="(" separator="," close=")">
+            #{stuId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteStuMarkByStuId" parameterType="Long">
+        delete from test_stu_mark where stu_id = #{stuId}
+    </delete>
+
+    <insert id="batchStuMark">
+        insert into test_stu_mark( id, stu_id, mark_chinese, mark_math, mark_it) values
+		<foreach item="item" index="index" collection="list" separator=",">
+            ( #{item.id}, #{item.stuId}, #{item.markChinese}, #{item.markMath}, #{item.markIt})
+        </foreach>
+    </insert>
+
+</mapper>
