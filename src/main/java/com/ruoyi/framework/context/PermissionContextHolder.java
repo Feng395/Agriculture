@@ -11,6 +11,7 @@ import com.ruoyi.common.utils.text.Convert;
  */
 public class PermissionContextHolder
 {
+    //权限上下文属性
     private static final String PERMISSION_CONTEXT_ATTRIBUTES = "PERMISSION_CONTEXT";
 
     public static void setContext(String permission)
