@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.test.schoolSystem.mapper.SchoolSystemMapper">
+    
+    <resultMap type="SchoolSystem" id="SchoolSystemResult">
+        <result property="id"    column="id"    />
+        <result property="schoolId"    column="school_id"    />
+        <result property="schoolName"    column="school_name"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="parentName" column="parent_name" />
+    </resultMap>
+
+    <sql id="selectSchoolSystemVo">
+        select id, school_id, school_name, parent_id from test_school
+    </sql>
+
+    <select id="selectSchoolSystemList" parameterType="SchoolSystem" resultMap="SchoolSystemResult">
+        <include refid="selectSchoolSystemVo"/>
+        <where>  
+            <if test="schoolId != null "> and school_id = #{schoolId}</if>
+            <if test="schoolName != null  and schoolName != ''"> and school_name like concat('%', #{schoolName}, '%')</if>
+        </where>
+        order by parent_id
+    </select>
+    
+    <select id="selectSchoolSystemById" parameterType="Long" resultMap="SchoolSystemResult">
+        select t.id, t.school_id, t.school_name, t.parent_id, p.school_name as parent_name
+        from test_school t
+        left join test_school p on p.id = t.parent_id
+        where t.id = #{id}
+    </select>
+        
+    <insert id="insertSchoolSystem" parameterType="SchoolSystem" useGeneratedKeys="true" keyProperty="id">
+        insert into test_school
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="schoolId != null">school_id,</if>
+            <if test="schoolName != null">school_name,</if>
+            <if test="parentId != null">parent_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="schoolId != null">#{schoolId},</if>
+            <if test="schoolName != null">#{schoolName},</if>
+            <if test="parentId != null">#{parentId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSchoolSystem" parameterType="SchoolSystem">
+        update test_school
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="schoolId != null">school_id = #{schoolId},</if>
+            <if test="schoolName != null">school_name = #{schoolName},</if>
+            <if test="parentId != null">parent_id = #{parentId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSchoolSystemById" parameterType="Long">
+        delete from test_school where id = #{id}
+    </delete>
+
+    <delete id="deleteSchoolSystemByIds" parameterType="String">
+        delete from test_school where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
